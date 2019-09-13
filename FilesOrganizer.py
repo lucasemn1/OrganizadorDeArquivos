@@ -55,10 +55,15 @@ class FilesOrganizer:
             return False
 
 
-mainPath = '/home/lucas/Workspace/OrganizadorDeArquivos/Testes/Teste2'
+mainPath = 'Caminho da sua pasta aqui' # Path of your folder here
 filesOrganizer = FilesOrganizer(mainPath)
 
 if filesOrganizer.moveFiles():
     print('Files moved with success!')
 else:
     print('Failed to move files.')
+
+
+
+# By: Lucas Emanuel. September 2019.
+# Github url: https://github.com/lucasemn1 
