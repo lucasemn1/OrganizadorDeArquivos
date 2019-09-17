@@ -55,7 +55,7 @@ class FilesOrganizer:
             return False
 
 
-mainPath = 'Caminho da sua pasta aqui' # Path of your folder here
+mainPath = os.getcwd() # Path of your folder here
 filesOrganizer = FilesOrganizer(mainPath)
 
 if filesOrganizer.moveFiles():
