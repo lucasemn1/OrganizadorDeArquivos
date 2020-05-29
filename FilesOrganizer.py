@@ -2,6 +2,15 @@ import os
 import sys
 import shutil
 
+class Error(object):
+    def __init__(self, title, err):
+        self.title = title
+        self.err = err
+
+
+    def __str__():
+        return f'{self.title}\n{self.err}'
+
 class File(object):
     def __init__(self, filePath):
         separatedByDot = filePath.split('.')
@@ -9,7 +18,7 @@ class File(object):
         self.path = filePath
 
     def __str__(self):
-        return 'Tipo: %s - Caminho: %s' % (self.type, self.path) 
+        return 'Type: %s - Path: %s' % (self.type, self.path) 
 
 class FilesOrganizer:
 
@@ -21,6 +30,7 @@ class FilesOrganizer:
         self.types = list()
         self.__toFiles()
         self.__putTypesPresents()
+        self.errors = list()
 
     def __toFiles(self):
         for filePath in self.__filesPaths:
@@ -37,32 +47,29 @@ class FilesOrganizer:
     def __createFolders(self):
         for t in self.types:
             pathCompleted = "%s/%s" % (self.mainPath, t)
-
+            
             if not os.path.exists(pathCompleted):
                 os.makedirs(pathCompleted)
 
     def moveFiles(self):
-        try:
-            self.__createFolders()
+        self.__createFolders()
 
-            for f in self.files:
+        for f in self.files:
+            try:
                 pathCompleted = "%s/%s" % (self.mainPath, f.type)
                 shutil.move(f.path, pathCompleted)
+                    
+            except OSError as err:
+                print(err)
                 
-            return True
-            
-        except:
-            return False
-
+                self.errors.append(Error('Error transferring the file', err))
+        
 
 mainPath = os.getcwd() # Path of your folder here
 filesOrganizer = FilesOrganizer(mainPath)
+filesOrganizer.moveFiles()
 
-if filesOrganizer.moveFiles():
-    print('Files moved with success!')
-else:
-    print('Failed to move files.')
-
+print('OK')
 
 
 # By: Lucas Emanuel. September 2019.
